@@ -4,7 +4,7 @@ RegisterNetEvent('consumables:server:UseFirework', function(item)
         'firework1',
         'firework2',
         'firework3',
-        'firework4'
+        'firework4',
     }
 
     local player = exports.qbx_core:GetPlayer(source)

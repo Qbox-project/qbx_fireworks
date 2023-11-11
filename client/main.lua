@@ -7,7 +7,7 @@ local fireworkList = {
         'scr_firework_xmas_burst_rgw',
         'scr_firework_xmas_repeat_burst_rgw',
         'scr_firework_xmas_spiral_burst_rgw',
-        'scr_xmas_firework_sparkle_spawn'
+        'scr_xmas_firework_sparkle_spawn',
     },
     ['scr_indep_fireworks'] = {
         'scr_indep_firework_sparkle_spawn',
@@ -17,13 +17,13 @@ local fireworkList = {
         'scr_indep_firework_trailburst_spawn',
         'scr_indep_firework_burst_spawn',
         'scr_indep_firework_trail_spawn',
-        'scr_indep_firework_fountain'
+        'scr_indep_firework_fountain',
     },
     ['proj_indep_firework'] = {
         'scr_indep_firework_grd_burst',
         'scr_indep_launcher_sparkle_spawn',
         'scr_indep_firework_air_burst',
-        'proj_indep_flare_trail'
+        'proj_indep_flare_trail',
     },
     ['proj_indep_firework_v2'] = {
         'scr_firework_indep_burst_rwb',
@@ -31,7 +31,7 @@ local fireworkList = {
         'scr_xmas_firework_sparkle_spawn',
         'scr_firework_indep_ring_burst_rwb',
         'scr_xmas_firework_burst_fizzle',
-        'scr_firework_indep_repeat_burst_rwb'
+        'scr_firework_indep_repeat_burst_rwb',
     }
 }
 
@@ -59,7 +59,7 @@ end
 RegisterNetEvent('fireworks:client:UseFirework', function(itemName, assetName)
     if lib.progressBar({
         duration = 3000,
-        label = Lang:t('placing'), 
+        label = Lang:t('placing'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -89,7 +89,7 @@ CreateThread(function()
         'scr_indep_fireworks',
         'proj_xmas_firework',
         'proj_indep_firework_v2',
-        'proj_indep_firework'
+        'proj_indep_firework',
     }
     
     for i = 1, #assets do
@@ -99,7 +99,7 @@ CreateThread(function()
     while true do
         Wait(700)
         if fireworkTime > 0 and fireworkLoc then
-            DrawText3D(Lang:t('starting')..fireworkTime, fireworkLoc)
+            DrawText3D(Lang:t('starting') .. fireworkTime, fireworkLoc)
         end
     end
 end)
