@@ -97,7 +97,7 @@ CreateThread(function()
     end
 
     while true do
-        Wait(700)
+        Wait(0)
         if fireworkTime > 0 and fireworkLoc then
             DrawText3D(Lang:t('starting') .. fireworkTime, fireworkLoc)
         end
