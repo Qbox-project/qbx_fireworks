@@ -49,14 +49,14 @@ local function doFirework(asset, coords)
             local firework = fireworkList[asset][math.random(1, #fireworkList[asset])]
             UseParticleFxAsset(asset)
             StartNetworkedParticleFxNonLoopedAtCoord(firework, fireworkLoc.x, fireworkLoc.y, fireworkLoc.z + 42.5, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
-            Wait(math.random()*500)
+            Wait(math.random() * 500)
         end
         fireworkLoc = nil
     end)
 end
 
 -- Events
-RegisterNetEvent('fireworks:client:UseFirework', function(itemName, assetName)
+RegisterNetEvent('qbx_fireworks:client:usedFirework', function(itemName, assetName)
     if lib.progressBar({
         duration = 3000,
         label = Lang:t('placing'),
@@ -74,7 +74,7 @@ RegisterNetEvent('fireworks:client:UseFirework', function(itemName, assetName)
             flag = 16
         }
     }) then
-        TriggerServerEvent('consumables:server:UseFirework', itemName)
+        TriggerServerEvent('qbx_fireworks:server:placedFirework', itemName)
         TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
         local pos = GetEntityCoords(cache.ped)
         doFirework(assetName, pos)
