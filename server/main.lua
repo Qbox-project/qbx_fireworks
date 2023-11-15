@@ -1,5 +1,5 @@
 -- Events
-RegisterNetEvent('consumables:server:UseFirework', function(item)
+RegisterNetEvent('qbx_fireworks:server:placedFirework', function(item)
     local fireworkItems = {
         'firework1',
         'firework2',
@@ -24,17 +24,17 @@ end)
 
 -- Items
 exports.qbx_core:CreateUseableItem('firework1', function(source, item)
-    TriggerClientEvent('fireworks:client:UseFirework', source, item.name, 'proj_indep_firework')
+    TriggerClientEvent('qbx_fireworks:client:usedFirework', source, item.name, 'proj_indep_firework')
 end)
 
 exports.qbx_core:CreateUseableItem('firework2', function(source, item)
-    TriggerClientEvent('fireworks:client:UseFirework', source, item.name, 'proj_indep_firework_v2')
+    TriggerClientEvent('qbx_fireworks:client:usedFirework', source, item.name, 'proj_indep_firework_v2')
 end)
 
 exports.qbx_core:CreateUseableItem('firework3', function(source, item)
-    TriggerClientEvent('fireworks:client:UseFirework', source, item.name, 'proj_xmas_firework')
+    TriggerClientEvent('qbx_fireworks:client:usedFirework', source, item.name, 'proj_xmas_firework')
 end)
 
 exports.qbx_core:CreateUseableItem('firework4', function(source, item)
-    TriggerClientEvent('fireworks:client:UseFirework', source, item.name, 'scr_indep_fireworks')
+    TriggerClientEvent('qbx_fireworks:client:usedFirework', source, item.name, 'scr_indep_fireworks')
 end)
