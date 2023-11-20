@@ -6,6 +6,7 @@ RegisterNetEvent('qbx_fireworks:server:placedFirework', function(item)
         'firework3',
         'firework4',
     }
+local sharedConfig = require 'config.shared'
 
     local player = exports.qbx_core:GetPlayer(source)
     if not player then return end
