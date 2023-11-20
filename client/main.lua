@@ -1,62 +1,41 @@
-local fireworkTime = 0
-local fireworkLoc = nil
-local fireworkList = {
-    ['proj_xmas_firework'] = {
-        'scr_firework_xmas_ring_burst_rgw',
-        'scr_firework_xmas_burst_rgw',
-        'scr_firework_xmas_repeat_burst_rgw',
-        'scr_firework_xmas_spiral_burst_rgw',
-        'scr_xmas_firework_sparkle_spawn',
-    },
-    ['scr_indep_fireworks'] = {
-        'scr_indep_firework_sparkle_spawn',
-        'scr_indep_firework_starburst',
-        'scr_indep_firework_shotburst',
-        'scr_indep_firework_trailburst',
-        'scr_indep_firework_trailburst_spawn',
-        'scr_indep_firework_burst_spawn',
-        'scr_indep_firework_trail_spawn',
-        'scr_indep_firework_fountain',
-    },
-    ['proj_indep_firework'] = {
-        'scr_indep_firework_grd_burst',
-        'scr_indep_launcher_sparkle_spawn',
-        'scr_indep_firework_air_burst',
-        'proj_indep_flare_trail',
-    },
-    ['proj_indep_firework_v2'] = {
-        'scr_firework_indep_burst_rwb',
-        'scr_firework_indep_spiral_burst_rwb',
-        'scr_xmas_firework_sparkle_spawn',
-        'scr_firework_indep_ring_burst_rwb',
-        'scr_xmas_firework_burst_fizzle',
-        'scr_firework_indep_repeat_burst_rwb',
-    }
-}
 local sharedConfig = require 'config.shared'
 
--- Functions
-local function doFirework(asset, coords)
-    fireworkTime = 5
-    fireworkLoc = {x = coords.x, y = coords.y, z = coords.z}
-    CreateThread(function()
-        while fireworkTime > 0 do
-            Wait(1000)
-            fireworkTime -= 1
+local function startFirework(asset)
+    local particles, time, location
+    local coords = GetEntityCoords(cache.ped)
+
+    location = {x = coords.x, y = coords.y, z = coords.z}
+    time = sharedConfig.detonationTime
+
+    for i = 1, #sharedConfig.fireworks do
+        local fireworks = sharedConfig.fireworks[i]
+        lib.requestNamedPtfxAsset(fireworks.assetName, 5000)
+        if fireworks.assetName == asset then
+            particles = fireworks.particleList
         end
+    end
+    
+    CreateThread(function()
+        while time > 0 do
+            Wait(1000)
+            time -= 1
+        end
+        
         UseParticleFxAsset('scr_indep_fireworks')
+
         for _ = 1, math.random(5, 10), 1 do
-            local firework = fireworkList[asset][math.random(1, #fireworkList[asset])]
+            local firework = particles[math.random(1, #particles)]
             UseParticleFxAsset(asset)
-            StartNetworkedParticleFxNonLoopedAtCoord(firework, fireworkLoc.x, fireworkLoc.y, fireworkLoc.z + 42.5, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
+            StartNetworkedParticleFxNonLoopedAtCoord(firework, location.x, location.y, location.z + 42.5, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
             Wait(math.random() * 500)
         end
-        fireworkLoc = nil
+
+        location = nil
+        particles = nil
     end)
 end
 
--- Events
-RegisterNetEvent('qbx_fireworks:client:usedFirework', function(itemName, assetName)
+RegisterNetEvent('qbx_fireworks:client:usedFirework', function(item, asset)
     if lib.progressBar({
         duration = 3000,
         label = Lang:t('placing'),
@@ -66,40 +45,20 @@ RegisterNetEvent('qbx_fireworks:client:usedFirework', function(itemName, assetNa
             move = true,
             car = true,
             mouse = false,
-            combat = true
+            combat = true,
         },
         anim = {
-            dict = 'anim@narcotics@trash',
-            clip = 'drop_front',
-            flag = 16
-        }
+            dict = 'anim@mp_fireworks',
+            clip = 'place_firework_3_box',
+            flag = 0,
+        },
+        prop = {
+
+        },
     }) then
-        TriggerServerEvent('qbx_fireworks:server:placedFirework', itemName)
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        local pos = GetEntityCoords(cache.ped)
-        doFirework(assetName, pos)
+        TriggerServerEvent('qbx_fireworks:server:placedFirework', item)
+        startFirework(asset)
     else
         exports.qbx_core:Notify(Lang:t('canceled'), 'error')
-    end
-end)
-
--- Threads
-CreateThread(function()
-    local assets = {
-        'scr_indep_fireworks',
-        'proj_xmas_firework',
-        'proj_indep_firework_v2',
-        'proj_indep_firework',
-    }
-    
-    for i = 1, #assets do
-        lib.requestNamedPtfxAsset(assets[i], 5000)
-    end
-
-    while true do
-        Wait(0)
-        if fireworkTime > 0 and fireworkLoc then
-            DrawText3D(Lang:t('starting') .. fireworkTime, fireworkLoc)
-        end
     end
 end)
