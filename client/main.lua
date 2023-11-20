@@ -1,4 +1,3 @@
--- Variables
 local fireworkTime = 0
 local fireworkLoc = nil
 local fireworkList = {
@@ -34,6 +33,7 @@ local fireworkList = {
         'scr_firework_indep_repeat_burst_rwb',
     }
 }
+local sharedConfig = require 'config.shared'
 
 -- Functions
 local function doFirework(asset, coords)
