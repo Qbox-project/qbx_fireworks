@@ -48,5 +48,5 @@ return {
                 'scr_indep_firework_fountain',
             },
         },
-    }
+    },
 }
