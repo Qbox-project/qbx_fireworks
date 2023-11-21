@@ -1,12 +1,11 @@
 lib.versionCheck('Qbox-project/qbx_fireworks')
 
-local sharedConfig = require 'config.shared'
+local fireworks = require 'config.shared'.fireworks
 
-for i = 1, #sharedConfig.fireworks do
-    local fireworks = sharedConfig.fireworks[i]
-    exports.qbx_core:CreateUseableItem(fireworks.itemName, function(source)
-        local success = lib.callback.await('qbx_fireworks:client:usedFirework', source, fireworks.assetName)
+for asset, item in pairs(fireworks) do
+    exports.qbx_core:CreateUseableItem(item.itemName, function(source)
+        local success = lib.callback.await('qbx_fireworks:client:useFirework', source, asset)
         if not success then return end
-        exports.ox_inventory:RemoveItem(source, fireworks.itemName, 1)
+        exports.ox_inventory:RemoveItem(source, item.itemName, 1)
     end)
 end
