@@ -1,9 +1,8 @@
 return {
     detonationTime = 5, -- Time in seconds to wait after placement till detonation
     fireworks = { -- List of fireworks
-        {
+        proj_indep_firework = {
             itemName = 'firework1',
-            assetName = 'proj_indep_firework',
             particleList = {
                 'scr_indep_firework_grd_burst',
                 'scr_indep_launcher_sparkle_spawn',
@@ -11,9 +10,8 @@ return {
                 'proj_indep_flare_trail',
             },
         },
-        {
+        proj_indep_firework_v2 = {
             itemName = 'firework2',
-            assetName = 'proj_indep_firework_v2',
             particleList = {
                 'scr_firework_indep_burst_rwb',
                 'scr_firework_indep_spiral_burst_rwb',
@@ -23,9 +21,8 @@ return {
                 'scr_firework_indep_repeat_burst_rwb',
             },
         },
-        {
+        proj_xmas_firework = {
             itemName = 'firework3',
-            assetName = 'proj_xmas_firework',
             particleList = {
                 'scr_firework_xmas_ring_burst_rgw',
                 'scr_firework_xmas_burst_rgw',
@@ -34,9 +31,8 @@ return {
                 'scr_xmas_firework_sparkle_spawn',
             },
         },
-        {
+        proj_indep_firework_v3 = {
             itemName = 'firework4',
-            assetName = 'scr_indep_fireworks',
             particleList = {
                 'scr_indep_firework_sparkle_spawn',
                 'scr_indep_firework_starburst',

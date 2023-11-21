@@ -2,20 +2,13 @@ local sharedConfig = require 'config.shared'
 
 local function startFirework(asset)
     local time
-    local particles = {}
     local coords = GetEntityCoords(cache.ped)
 
     time = sharedConfig.detonationTime
 
-    for i = 1, #sharedConfig.fireworks do
-        local fireworks = sharedConfig.fireworks[i]
-        lib.requestNamedPtfxAsset(fireworks.assetName, 5000)
-        if fireworks.assetName == asset then
-            particles = fireworks.particleList
-            break
-        end
-    end
+    lib.requestNamedPtfxAsset(asset, 5000)
     
+    local particles = sharedConfig.fireworks[asset].particleList
     CreateThread(function()
         while time > 0 do
             Wait(1000)
@@ -33,7 +26,7 @@ local function startFirework(asset)
     end)
 end
 
-lib.callback.register('qbx_fireworks:client:usedFirework', function(asset)
+lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
     if lib.progressBar({
         duration = 3000,
         label = Lang:t('placing'),
