@@ -31,7 +31,7 @@ return {
                 'scr_xmas_firework_sparkle_spawn',
             },
         },
-        proj_indep_firework_v3 = {
+        scr_indep_fireworks = {
             itemName = 'firework4',
             particleList = {
                 'scr_indep_firework_sparkle_spawn',
