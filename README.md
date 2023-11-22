@@ -7,7 +7,7 @@ A small resource that allows players to use fireworks!
 # Features
 
 - Four pre-set firework types
-- Ability to create more firework and particle effect generating objects
+- Adds option to require a lighter
 - Adds functionality to ox_inventory firework items
 - Fun!
 

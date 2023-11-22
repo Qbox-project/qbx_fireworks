@@ -1,5 +1,9 @@
 return {
     detonationTime = 5, -- Time in seconds to wait after placement till detonation
+    needLighter = true, -- If true, player needs the lighter item on their person to place the firework
+
+    ---@alias FireworkAssetName string
+    ---@type table<FireworkAssetName, {itemName: string, particleList: string[]}>
     fireworks = { -- List of fireworks
         proj_indep_firework = {
             itemName = 'firework1',

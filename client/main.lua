@@ -1,5 +1,15 @@
 local sharedConfig = require 'config.shared'
 
+AddStateBagChangeHandler('qbx_fireworks:initiate', nil, function(bagName, _, value)
+    local entity = GetEntityFromStateBagName(bagName)
+    if entity == 0 then return end
+    if value and NetworkGetEntityOwner(entity) == cache.playerId then
+        PlaceObjectOnGroundProperly(entity)
+	    FreezeEntityPosition(entity, true)
+        Entity(entity).state:set('qbx_fireworks:initiate', false, true)
+    end
+end)
+
 local function startFirework(asset)
     local time
     local coords = GetEntityCoords(cache.ped)
@@ -15,14 +25,12 @@ local function startFirework(asset)
             time -= 1
         end
 
-        for _ = 1, math.random(5, 10), 1 do
+        for _ = 1, math.random(10, 15), 1 do
             local firework = particles[math.random(1, #particles)]
             UseParticleFxAsset(asset)
-            StartNetworkedParticleFxNonLoopedAtCoord(firework, coords.x, coords.y, coords.z + 42.5, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
-            Wait(math.random() * 500)
+            StartNetworkedParticleFxNonLoopedAtCoord(firework, coords.x, coords.y, coords.z + 50.0, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
+            Wait(1000)
         end
-
-        particles = nil
     end)
 end
 
@@ -44,10 +52,17 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
             flag = 0,
             blendIn = 8.0,
         },
-    }) then
+        prop = {
+            model = 'ind_prop_firework_03',
+            pos = vec3(0.07, 0.04, 0.08),
+            rot = vec3(-45.0, 220.0, 0.0),
+        },
+    }) then -- if completed
+        local coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0, 0.6, -2.0)
+        TriggerServerEvent('qbx_fireworks:server:spawnObject', 'ind_prop_firework_03', coords)
         startFirework(asset)
         return true
-    else
+    else -- if canceled
         exports.qbx_core:Notify(Lang:t('canceled'), 'error')
         return false
     end
