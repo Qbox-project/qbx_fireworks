@@ -6,7 +6,7 @@ for asset, item in pairs(config.fireworks) do
     exports.qbx_core:CreateUseableItem(item.itemName, function(source)
         if config.needLighter then
             local hasLighter = exports.ox_inventory:Search(source, 'count', 'lighter') > 0
-            if not hasLighter then 
+            if not hasLighter then
                 return exports.qbx_core:Notify(source, Lang:t('need_lighter'), 'error')
             end
         end
