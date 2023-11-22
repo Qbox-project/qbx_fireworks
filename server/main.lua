@@ -4,9 +4,11 @@ local config = require 'config.shared'
 
 for asset, item in pairs(config.fireworks) do
     exports.qbx_core:CreateUseableItem(item.itemName, function(source)
-        local hasLighter = exports.ox_inventory:Search(source, 'count', 'lighter') > 0
-        if config.needLighter and not hasLighter then
-            return exports.qbx_core:Notify(source, Lang:t('need_lighter'), 'error')
+        if config.needLighter then
+            local hasLighter = exports.ox_inventory:Search(source, 'count', 'lighter') > 0
+            if not hasLighter then 
+                return exports.qbx_core:Notify(source, Lang:t('need_lighter'), 'error')
+            end
         end
         
         local success = lib.callback.await('qbx_fireworks:client:useFirework', source, asset)
@@ -21,7 +23,7 @@ RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
     while not DoesEntityExist(entity) do
         Wait(0)
     end
-    Entity(entity).state:set('initiateFireworks', true, true)
+    Entity(entity).state:set('qbx_fireworks:initiate', true, true)
     SetTimeout((config.detonationTime * 1000) + 20000, function()
         DeleteEntity(entity)
     end)

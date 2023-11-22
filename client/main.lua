@@ -1,12 +1,12 @@
 local sharedConfig = require 'config.shared'
 
-AddStateBagChangeHandler('initiateFireworks', nil, function(bagName, _, value)
+AddStateBagChangeHandler('qbx_fireworks:initiate', nil, function(bagName, _, value)
     local entity = GetEntityFromStateBagName(bagName)
     if entity == 0 then return end
     if value and NetworkGetEntityOwner(entity) == cache.playerId then
         PlaceObjectOnGroundProperly(entity)
 	    FreezeEntityPosition(entity, true)
-        Entity(entity).state:set('initiateFireworks', false, true)
+        Entity(entity).state:set('qbx_fireworks:initiate', false, true)
     end
 end)
 
