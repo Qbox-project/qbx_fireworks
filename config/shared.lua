@@ -1,5 +1,6 @@
 return {
     detonationTime = 5, -- Time in seconds to wait after placement till detonation
+    needLighter = true, -- If true, player needs the lighter item on their person to place the firework
     fireworks = { -- List of fireworks
         proj_indep_firework = {
             itemName = 'firework1',
