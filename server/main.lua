@@ -7,10 +7,10 @@ for asset, item in pairs(config.fireworks) do
         if config.needLighter then
             local hasLighter = exports.ox_inventory:Search(source, 'count', 'lighter') > 0
             if not hasLighter then
-                return exports.qbx_core:Notify(source, Lang:t('need_lighter'), 'error')
+                return exports.qbx_core:Notify(source, locale('need_lighter'), 'error')
             end
         end
-        
+
         local success = lib.callback.await('qbx_fireworks:client:useFirework', source, asset)
         if not success then return end
         exports.ox_inventory:RemoveItem(source, item.itemName, 1)
