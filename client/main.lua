@@ -17,7 +17,7 @@ local function startFirework(asset)
     time = sharedConfig.detonationTime
 
     lib.requestNamedPtfxAsset(asset, 5000)
-    
+
     local particles = sharedConfig.fireworks[asset].particleList
     CreateThread(function()
         while time > 0 do
@@ -37,7 +37,7 @@ end
 lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
     if lib.progressBar({
         duration = 3000,
-        label = Lang:t('placing'),
+        label = locale('placing'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -63,7 +63,7 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
         startFirework(asset)
         return true
     else -- if canceled
-        exports.qbx_core:Notify(Lang:t('canceled'), 'error')
+        exports.qbx_core:Notify(locale('canceled'), 'error')
         return false
     end
 end)
