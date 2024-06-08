@@ -38,6 +38,8 @@ local function startFirework(asset, entityCoords)
             Wait(1000)
         end
     end)
+    RemoveNamedPtfxAsset(asset)
+    RemoveNamedPtfxAsset('core')
 end
 
 lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
