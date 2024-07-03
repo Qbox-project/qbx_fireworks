@@ -41,6 +41,12 @@ RegisterNetEvent('qbx_fireworks:server:spawnShowObject', function(model, coords)
     end)
 end)
 
-RegisterCommand('startshow', function(source, args)
-    TriggerClientEvent('qbx_fireworks:client:startShow', source, args[1])
-end, false)
+lib.addCommand('startshow', {
+    help = locale('start_show_desc'),
+    params = {
+        {name = "Location", help = locale('start_show_param_hint'), type = 'string'}
+    },
+    restricted = 'group.admin'
+}, function(source, args, raw)
+    TriggerClientEvent('qbx_fireworks:client:startShow', source, args.Location)
+end)

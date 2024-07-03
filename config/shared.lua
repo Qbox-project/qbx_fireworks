@@ -51,7 +51,7 @@ return {
     },
 
     shows = {
-        ['lsia'] = {
+        ['lsia'] = { -- location for command
             { -- Sequences
              fireworks = {
                 {
@@ -105,13 +105,13 @@ return {
             },
             masterWait = 15000 -- In ms, delay before the next sequence starts
             },
-            { -- Sequences
+            {
              fireworks = {
                 {
-                    asset = 'scr_indep_fireworks', --  Firework asset name, must be from above
-                    coords = vec3(-1415.34, -3203.85, 13.94), -- location of firework, if adding more -1 the z axis
-                    height = 50.0, -- z axis + height for the firework explosion to happen
-                    wait = 0 -- delay in ms before next firework spawn 
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1415.34, -3203.85, 13.94),
+                    height = 50.0,
+                    wait = 0 
                 },
                 {
                     asset = 'scr_indep_fireworks',

@@ -1,5 +1,7 @@
 {
     "placing": "Placing firework...",
     "need_lighter": "You need a lighter in order to use this...",
-    "canceled": "Canceled..."
+    "canceled": "Canceled...",
+    "start_show_desc": "Start a show",
+    "start_show_param_hint": "Location of the show"
 }
