@@ -111,7 +111,7 @@ return {
                     asset = 'scr_indep_fireworks',
                     coords = vec3(-1415.34, -3203.85, 13.94),
                     height = 50.0,
-                    wait = 0 
+                    wait = 0
                 },
                 {
                     asset = 'scr_indep_fireworks',
