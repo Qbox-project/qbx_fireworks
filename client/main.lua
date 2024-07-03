@@ -42,6 +42,36 @@ local function startFirework(asset, entityCoords)
     RemoveNamedPtfxAsset('core')
 end
 
+local function startFireworkShow(asset, coords, height)
+    local showTime
+    
+    showTime = sharedConfig.detonationTime
+
+    lib.requestNamedPtfxAsset(asset, 5000)
+    lib.requestNamedPtfxAsset('core', 5000)
+
+    local particles = sharedConfig.fireworks[asset].particleList
+    CreateThread(function()
+        while showTime > 0 do
+            Wait(1000)
+            showTime -= 1
+        end
+        for _ = 1, math.random(10, 15), 1 do
+            local firework = particles[math.random(1, #particles)]
+            UseParticleFxAsset('core')
+            StartNetworkedParticleFxNonLoopedAtCoord('sp_foundry_sparks', coords.x, coords.y, coords.z - .8, 0.0, 0.0, 0.0, .5, false, false, false)
+            AddExplosion(coords.x, coords.y, coords.z, 45, 0, true, true, 0)
+            Wait(750)
+            UseParticleFxAsset(asset)
+            StartNetworkedParticleFxNonLoopedAtCoord(firework, coords.x, coords.y, coords.z + height, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
+            AddExplosion(coords.x, coords.y, coords.z + height, 61, 0, true, true, 0)
+            Wait(1000)
+        end
+    end)
+    RemoveNamedPtfxAsset(asset)
+    RemoveNamedPtfxAsset('core')
+end
+
 lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
     if lib.progressBar({
         duration = 3000,
@@ -74,4 +104,18 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
         exports.qbx_core:Notify(locale('canceled'), 'error')
         return false
     end
+end)
+
+RegisterNetEvent('qbx_fireworks:client:startShow', function(show)
+    if show ~= nil then
+        for i=1, #sharedConfig.shows[show] do -- Sequences
+            for j=1, #sharedConfig.shows[show][i].fireworks do -- Individual
+                TriggerServerEvent('qbx_fireworks:server:spawnShowObject', sharedConfig.shows[show][i].fireworks[j].asset, sharedConfig.shows[show][i].fireworks[j].coords)
+                startFireworkShow(sharedConfig.shows[show][i].fireworks[j].asset, sharedConfig.shows[show][i].fireworks[j].coords, sharedConfig.shows[show][i].fireworks[j].height)
+                Wait(sharedConfig.shows[show][i].fireworks[j].wait)
+            end
+            Wait(sharedConfig.shows[show][i].masterWait)
+        end
+    end
+    
 end)

@@ -28,3 +28,19 @@ RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
         DeleteEntity(entity)
     end)
 end)
+
+RegisterNetEvent('qbx_fireworks:server:spawnShowObject', function(model, coords)
+    local hash = joaat(model)
+    local entity = CreateObject(hash, coords.x, coords.y, coords.z - 1, true, true, false)
+    while not DoesEntityExist(entity) do
+        Wait(0)
+    end
+    Entity(entity).state:set('qbx_fireworks:initiate', true, true)
+    SetTimeout((config.detonationTime * 1000) + 26000, function()
+        DeleteEntity(entity)
+    end)
+end)
+
+RegisterCommand('startshow', function(source, args)
+    TriggerClientEvent('qbx_fireworks:client:startShow', source, args[1])
+end, false)
