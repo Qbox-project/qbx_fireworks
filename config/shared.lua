@@ -103,7 +103,60 @@ return {
                     wait = 0
                 },
             },
-            masterWait = 5000 -- In ms, delay before the next sequence starts
+            masterWait = 15000 -- In ms, delay before the next sequence starts
+            },
+            { -- Sequences
+             fireworks = {
+                {
+                    asset = 'scr_indep_fireworks', --  Firework asset name, must be from above
+                    coords = vec3(-1415.34, -3203.85, 13.94), -- location of firework, if adding more -1 the z axis
+                    height = 50.0, -- z axis + height for the firework explosion to happen
+                    wait = 0 -- delay in ms before next firework spawn 
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 50.0,
+                    wait = 0
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 50.0,
+                    wait = 0
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 50.0,
+                    wait = 12000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 70.0,
+                    wait = 0
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 45.0,
+                    wait = 0
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 45.0,
+                    wait = 0
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1415.34, -3203.85, 13.94),
+                    height = 70.0,
+                    wait = 0
+                },
+            },
+            masterWait = 15000 -- In ms, delay before the next sequence starts
             },
         }
     }
