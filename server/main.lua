@@ -19,7 +19,7 @@ end
 
 RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
     local hash = joaat(model)
-    local entity =  CreateObject(hash, coords.x, coords.y, coords.z, true, true, false)
+    local entity = CreateObject(hash, coords.x, coords.y, coords.z, true, true, false)
     while not DoesEntityExist(entity) do
         Wait(0)
     end
@@ -44,9 +44,20 @@ end)
 lib.addCommand('startshow', {
     help = locale('start_show_desc'),
     params = {
-        {name = "Location", help = locale('start_show_param_hint'), type = 'string'}
+        { name = "Location", help = locale('start_show_param_hint'), type = 'string' }
     },
     restricted = 'group.admin'
 }, function(source, args, raw)
-    TriggerClientEvent('qbx_fireworks:client:startShow', source, args.Location)
+    local show = args.Location
+    if not show then return end
+    if not config.shows[show] then return end
+    for i = 1, #config.shows[show].fireworks do -- Sequences
+        local firework = config.shows[show].fireworks[i]
+        local fireworkAsset = firework.asset
+        local fireworkCoords = firework.coords
+        local fireworkHeight = firework.height
+        local fireworkWait = firework.wait
+        TriggerClientEvent('qbx_fiureworks:client:startShow', -1, fireworkAsset, fireworkCoords, fireworkHeight)
+        Wait(fireworkWait)
+    end
 end)
