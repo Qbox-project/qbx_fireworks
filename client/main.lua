@@ -107,15 +107,21 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
 end)
 
 RegisterNetEvent('qbx_fireworks:client:startShow', function(show)
-    if show ~= nil then
-        for i=1, #sharedConfig.shows[show] do -- Sequences
-            for j=1, #sharedConfig.shows[show][i].fireworks do -- Individual
-                TriggerServerEvent('qbx_fireworks:server:spawnShowObject', sharedConfig.shows[show][i].fireworks[j].asset, sharedConfig.shows[show][i].fireworks[j].coords)
-                startFireworkShow(sharedConfig.shows[show][i].fireworks[j].asset, sharedConfig.shows[show][i].fireworks[j].coords, sharedConfig.shows[show][i].fireworks[j].height)
-                Wait(sharedConfig.shows[show][i].fireworks[j].wait)
-            end
-            Wait(sharedConfig.shows[show][i].masterWait)
+    if not show then return end
+    if not sharedConfig.shows[show] then return end
+    for i=1, #sharedConfig.shows[show] do -- Sequences
+        local sequenceWait = sharedConfig.shows[show][i].mastwerWait
+        for j=1, #sharedConfig.shows[show][i].fireworks do -- Individual
+            local firework = sharedConfig.shows[show][i].fireworks[j]
+            local fireworkAsset = firework.asset
+            local fireworkCoords = firework.coords
+            local fireworkHeight = firework.height
+            local fireworkWait = firework.wait
+            TriggerServerEvent('qbx_fireworks:server:spawnShowObject', fireworkAsset, fireworkCoords)
+            startFireworkShow(fireworkAsset, fireworkCoords, fireworkHeight)
+            Wait(fireworkWait)
         end
+        Wait(sequenceWait)
     end
     
 end)
