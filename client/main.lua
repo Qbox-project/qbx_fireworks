@@ -42,7 +42,7 @@ local function startFirework(asset, entityCoords)
     RemoveNamedPtfxAsset('core')
 end
 
-local function startFireworkShow(asset, coords, height)
+local function startFireworkShow(asset, coords, height, fireworkEffects)
     local showTime
     
     showTime = sharedConfig.detonationTime
@@ -50,20 +50,18 @@ local function startFireworkShow(asset, coords, height)
     lib.requestNamedPtfxAsset(asset, 5000)
     lib.requestNamedPtfxAsset('core', 5000)
 
-    local particles = sharedConfig.fireworks[asset].particleList
     CreateThread(function()
         while showTime > 0 do
             Wait(1000)
             showTime -= 1
         end
-        for _ = 1, math.random(10, 15), 1 do
-            local firework = particles[math.random(1, #particles)]
+        for i = 1, #fireworkEffects do
             UseParticleFxAsset('core')
-            StartNetworkedParticleFxNonLoopedAtCoord('sp_foundry_sparks', coords.x, coords.y, coords.z - .8, 0.0, 0.0, 0.0, .5, false, false, false)
+            StartParticleFxNonLoopedAtCoord('sp_foundry_sparks', coords.x, coords.y, coords.z - .8, 0.0, 0.0, 0.0, .5, false, false, false)
             AddExplosion(coords.x, coords.y, coords.z, 45, 0, true, true, 0)
             Wait(750)
             UseParticleFxAsset(asset)
-            StartNetworkedParticleFxNonLoopedAtCoord(firework, coords.x, coords.y, coords.z + height, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
+            StartParticleFxNonLoopedAtCoord(fireworkEffects[i].particle, coords.x, coords.y, coords.z + height, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
             AddExplosion(coords.x, coords.y, coords.z + height, 61, 0, true, true, 0)
             Wait(1000)
         end
@@ -106,6 +104,6 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
     end
 end)
 
-RegisterNetEvent('qbx_fiureworks:client:startShow', function(fireworkAsset, fireworkCoords, fireworkHeight)
-    startFireworkShow(fireworkAsset, fireworkCoords, fireworkHeight)
+RegisterNetEvent('qbx_fiureworks:client:startShow', function(fireworkAsset, fireworkCoords, fireworkHeight, fireworkEffects)
+    startFireworkShow(fireworkAsset, fireworkCoords, fireworkHeight, fireworkEffects)
 end)

@@ -41,6 +41,26 @@ RegisterNetEvent('qbx_fireworks:server:spawnShowObject', function(model, coords)
     end)
 end)
 
+local function startShow(showName)
+    local show = config.shows[showName]
+    if not show then return end
+    if not show then return end
+    for i = 1, #show.fireworks do -- Sequences
+        local firework = show.fireworks[i]
+        local particles = config.fireworks[firework.asset].particleList
+        local fireworkEffects = {}
+        for _ = 1, math.random(10,15), 1 do
+            fireworkEffects[#fireworkEffects+1] = {
+                particle = particles[math.random(1, #particles)]
+            }
+        end
+        TriggerClientEvent('qbx_fiureworks:client:startShow', -1, firework.asset, firework.coords, firework.height, fireworkEffects)
+        Wait(firework.wait)
+    end
+end
+
+exports('StartShow', startShow)
+
 lib.addCommand('startshow', {
     help = locale('start_show_desc'),
     params = {
@@ -48,16 +68,5 @@ lib.addCommand('startshow', {
     },
     restricted = 'group.admin'
 }, function(source, args, raw)
-    local show = args.Location
-    if not show then return end
-    if not config.shows[show] then return end
-    for i = 1, #config.shows[show].fireworks do -- Sequences
-        local firework = config.shows[show].fireworks[i]
-        local fireworkAsset = firework.asset
-        local fireworkCoords = firework.coords
-        local fireworkHeight = firework.height
-        local fireworkWait = firework.wait
-        TriggerClientEvent('qbx_fiureworks:client:startShow', -1, fireworkAsset, fireworkCoords, fireworkHeight)
-        Wait(fireworkWait)
-    end
+    startShow(args.Location)
 end)
