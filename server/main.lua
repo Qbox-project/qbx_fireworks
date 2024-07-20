@@ -24,7 +24,7 @@ RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
         Wait(0)
     end
     Entity(entity).state:set('qbx_fireworks:initiate', true, true)
-    SetTimeout((config.detonationTime * 1000) + 20000, function()
+    SetTimeout((config.detonationTime * 1000) + 26000, function()
         DeleteEntity(entity)
     end)
 end)
