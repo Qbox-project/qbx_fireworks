@@ -35,7 +35,6 @@ RegisterNetEvent('qbx_fireworks:server:spawnShowObject', function(model, coords)
     while not DoesEntityExist(entity) do
         Wait(0)
     end
-    Entity(entity).state:set('qbx_fireworks:initiate', true, true)
     SetTimeout((config.detonationTime * 1000) + 26000, function()
         DeleteEntity(entity)
     end)
@@ -43,7 +42,6 @@ end)
 
 local function startShow(showName)
     local show = config.shows[showName]
-    if not show then return end
     if not show then return end
     for i = 1, #show.fireworks do -- Sequences
         local firework = show.fireworks[i]
@@ -54,6 +52,7 @@ local function startShow(showName)
                 particle = particles[math.random(1, #particles)]
             }
         end
+        TriggerEvent('qbx_fireworks:server:spawnShowObject', 'ind_prop_firework_03', firework.coords)
         TriggerClientEvent('qbx_fiureworks:client:startShow', -1, firework.asset, firework.coords, firework.height, fireworkEffects)
         Wait(firework.wait)
     end
