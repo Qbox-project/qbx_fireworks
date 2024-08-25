@@ -3,7 +3,7 @@ game 'gta5'
 
 description 'qbx_fireworks'
 repository 'https://github.com/Qbox-project/qbx_fireworks'
-version '1.2.1'
+version '1.3.0'
 
 ox_lib 'locale'
 
