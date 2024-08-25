@@ -49,4 +49,185 @@ return {
             },
         },
     },
+
+    shows = {
+        ['lsia'] = { -- location for command
+            fireworks = {
+                {
+                    asset = 'scr_indep_fireworks',            --  Firework asset name, must be from above
+                    coords = vec3(-1415.34, -3203.85, 13.94), -- location of firework, if adding more -1 the z axis
+                    height = 50.0,                            -- z axis + height for the firework explosion to happen
+                    wait = 4000                                  -- delay in ms before next firework spawn
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1415.34, -3203.85, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1415.34, -3203.85, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1415.34, -3203.85, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 50.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1373.94, -3226.76, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'scr_indep_fireworks',
+                    coords = vec3(-1385.2, -3220.6, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_xmas_firework',
+                    coords = vec3(-1399.17, -3212.7, 13.94),
+                    height = 45.0,
+                    wait = 4000
+                },
+                {
+                    asset = 'proj_indep_firework_v2',
+                    coords = vec3(-1415.34, -3203.85, 13.94),
+                    height = 70.0,
+                    wait = 4000
+                },
+            },
+        }
+    }
 }

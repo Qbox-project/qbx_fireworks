@@ -19,7 +19,7 @@ end
 
 RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
     local hash = joaat(model)
-    local entity =  CreateObject(hash, coords.x, coords.y, coords.z, true, true, false)
+    local entity = CreateObject(hash, coords.x, coords.y, coords.z, true, true, false)
     while not DoesEntityExist(entity) do
         Wait(0)
     end
@@ -27,4 +27,45 @@ RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
     SetTimeout((config.detonationTime * 1000) + 26000, function()
         DeleteEntity(entity)
     end)
+end)
+
+RegisterNetEvent('qbx_fireworks:server:spawnShowObject', function(model, coords)
+    local hash = joaat(model)
+    local entity = CreateObject(hash, coords.x, coords.y, coords.z - 1, true, true, false)
+    while not DoesEntityExist(entity) do
+        Wait(0)
+    end
+    SetTimeout((config.detonationTime * 1000) + 26000, function()
+        DeleteEntity(entity)
+    end)
+end)
+
+local function startShow(showName)
+    local show = config.shows[showName]
+    if not show then return end
+    for i = 1, #show.fireworks do -- Sequences
+        local firework = show.fireworks[i]
+        local particles = config.fireworks[firework.asset].particleList
+        local fireworkEffects = {}
+        for _ = 1, math.random(10,15), 1 do
+            fireworkEffects[#fireworkEffects+1] = {
+                particle = particles[math.random(1, #particles)]
+            }
+        end
+        TriggerEvent('qbx_fireworks:server:spawnShowObject', 'ind_prop_firework_03', firework.coords)
+        TriggerClientEvent('qbx_fiureworks:client:startShow', -1, firework.asset, firework.coords, firework.height, fireworkEffects)
+        Wait(firework.wait)
+    end
+end
+
+exports('StartShow', startShow)
+
+lib.addCommand('startshow', {
+    help = locale('start_show_desc'),
+    params = {
+        { name = "Location", help = locale('start_show_param_hint'), type = 'string' }
+    },
+    restricted = 'group.admin'
+}, function(source, args, raw)
+    startShow(args.Location)
 end)

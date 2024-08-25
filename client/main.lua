@@ -42,6 +42,34 @@ local function startFirework(asset, entityCoords)
     RemoveNamedPtfxAsset('core')
 end
 
+local function startFireworkShow(asset, coords, height, fireworkEffects)
+    local showTime
+    
+    showTime = sharedConfig.detonationTime
+
+    lib.requestNamedPtfxAsset(asset, 5000)
+    lib.requestNamedPtfxAsset('core', 5000)
+
+    CreateThread(function()
+        while showTime > 0 do
+            Wait(1000)
+            showTime -= 1
+        end
+        for i = 1, #fireworkEffects do
+            UseParticleFxAsset('core')
+            StartParticleFxNonLoopedAtCoord('sp_foundry_sparks', coords.x, coords.y, coords.z - .8, 0.0, 0.0, 0.0, .5, false, false, false)
+            AddExplosion(coords.x, coords.y, coords.z, 45, 0, true, true, 0)
+            Wait(750)
+            UseParticleFxAsset(asset)
+            StartParticleFxNonLoopedAtCoord(fireworkEffects[i].particle, coords.x, coords.y, coords.z + height, 0.0, 0.0, 0.0, math.random() * 0.3 + 0.5, false, false, false)
+            AddExplosion(coords.x, coords.y, coords.z + height, 61, 0, true, true, 0)
+            Wait(1000)
+        end
+    end)
+    RemoveNamedPtfxAsset(asset)
+    RemoveNamedPtfxAsset('core')
+end
+
 lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
     if lib.progressBar({
         duration = 3000,
@@ -74,4 +102,8 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
         exports.qbx_core:Notify(locale('canceled'), 'error')
         return false
     end
+end)
+
+RegisterNetEvent('qbx_fiureworks:client:startShow', function(fireworkAsset, fireworkCoords, fireworkHeight, fireworkEffects)
+    startFireworkShow(fireworkAsset, fireworkCoords, fireworkHeight, fireworkEffects)
 end)
