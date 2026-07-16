@@ -95,7 +95,7 @@ lib.callback.register('qbx_fireworks:client:useFirework', function(asset)
         },
     }) then -- if completed
         local coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0, 0.6, -2.0)
-        TriggerServerEvent('qbx_fireworks:server:spawnObject', 'ind_prop_firework_03', coords)
+        TriggerServerEvent('qbx_fireworks:server:spawnObject', coords)
         startFirework(asset, coords)
         return true
     else -- if canceled
