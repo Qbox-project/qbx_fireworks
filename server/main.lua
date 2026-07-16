@@ -1,6 +1,24 @@
 lib.versionCheck('Qbox-project/qbx_fireworks')
 
 local config = require 'config.shared'
+local placementTokens = {}
+
+---@param model string
+---@param coords vector3
+---@param initiate boolean
+local function spawnFireworkObject(model, coords, initiate)
+    local entity = CreateObject(joaat(model), coords.x, coords.y, coords.z, true, true, false)
+    local timeout = GetGameTimer() + 5000
+    while not DoesEntityExist(entity) and GetGameTimer() < timeout do
+        Wait(0)
+    end
+    if not DoesEntityExist(entity) then return end
+
+    if initiate then Entity(entity).state:set('qbx_fireworks:initiate', true, true) end
+    SetTimeout((config.detonationTime * 1000) + 26000, function()
+        if DoesEntityExist(entity) then DeleteEntity(entity) end
+    end)
+end
 
 for asset, item in pairs(config.fireworks) do
     exports.qbx_core:CreateUseableItem(item.itemName, function(source)
@@ -11,33 +29,36 @@ for asset, item in pairs(config.fireworks) do
             end
         end
 
+        if exports.ox_inventory:GetItemCount(source, item.itemName) < 1 then return end
+        placementTokens[source] = {
+            item = item.itemName,
+            expiresAt = os.time() + 15,
+        }
         local success = lib.callback.await('qbx_fireworks:client:useFirework', source, asset)
-        if not success then return end
-        exports.ox_inventory:RemoveItem(source, item.itemName, 1)
+        if not success then placementTokens[source] = nil end
     end)
 end
 
-RegisterNetEvent('qbx_fireworks:server:spawnObject', function(model, coords)
-    local hash = joaat(model)
-    local entity = CreateObject(hash, coords.x, coords.y, coords.z, true, true, false)
-    while not DoesEntityExist(entity) do
-        Wait(0)
-    end
-    Entity(entity).state:set('qbx_fireworks:initiate', true, true)
-    SetTimeout((config.detonationTime * 1000) + 26000, function()
-        DeleteEntity(entity)
-    end)
+RegisterNetEvent('qbx_fireworks:server:spawnObject', function(coords)
+    local src = source
+    local token = placementTokens[src]
+    placementTokens[src] = nil
+    if not token or token.expiresAt < os.time() or type(coords) ~= 'vector3' then return end
+
+    local ped = GetPlayerPed(src)
+    if ped == 0 or #(GetEntityCoords(ped) - coords) > 5.0
+        or not exports.ox_inventory:RemoveItem(src, token.item, 1) then return end
+
+    spawnFireworkObject('ind_prop_firework_03', coords, true)
 end)
 
-RegisterNetEvent('qbx_fireworks:server:spawnShowObject', function(model, coords)
-    local hash = joaat(model)
-    local entity = CreateObject(hash, coords.x, coords.y, coords.z - 1, true, true, false)
-    while not DoesEntityExist(entity) do
-        Wait(0)
-    end
-    SetTimeout((config.detonationTime * 1000) + 26000, function()
-        DeleteEntity(entity)
-    end)
+AddEventHandler('qbx_fireworks:server:spawnShowObject', function(model, coords)
+    if type(model) ~= 'string' or type(coords) ~= 'vector3' then return end
+    spawnFireworkObject(model, vec3(coords.x, coords.y, coords.z - 1), false)
+end)
+
+AddEventHandler('playerDropped', function()
+    placementTokens[source] = nil
 end)
 
 local function startShow(showName)
