@@ -3,6 +3,10 @@ lib.versionCheck('Qbox-project/qbx_fireworks')
 local config = require 'config.shared'
 local placementTokens = {}
 
+local function isFiniteNumber(value)
+    return type(value) == 'number' and value == value and value > -math.huge and value < math.huge
+end
+
 ---@param model string
 ---@param coords vector3
 ---@param initiate boolean
@@ -30,12 +34,13 @@ for asset, item in pairs(config.fireworks) do
         end
 
         if exports.ox_inventory:GetItemCount(source, item.itemName) < 1 then return end
-        placementTokens[source] = {
+        local token = {
             item = item.itemName,
             expiresAt = os.time() + 15,
         }
+        placementTokens[source] = token
         local success = lib.callback.await('qbx_fireworks:client:useFirework', source, asset)
-        if not success then placementTokens[source] = nil end
+        if not success and placementTokens[source] == token then placementTokens[source] = nil end
     end)
 end
 
@@ -44,6 +49,7 @@ RegisterNetEvent('qbx_fireworks:server:spawnObject', function(coords)
     local token = placementTokens[src]
     placementTokens[src] = nil
     if not token or token.expiresAt < os.time() or type(coords) ~= 'vector3' then return end
+    if not isFiniteNumber(coords.x) or not isFiniteNumber(coords.y) or not isFiniteNumber(coords.z) then return end
 
     local ped = GetPlayerPed(src)
     if ped == 0 or #(GetEntityCoords(ped) - coords) > 5.0
